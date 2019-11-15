@@ -35,19 +35,19 @@ export const getTodo = () => {
         'Authorization': `Bearer ${localStorage.getItem('webtoken')}`,
       }
     })
-      .then(response => response.json())
-      .then(json => {
-        if (json.success) {
-          dispatch(loadTodo(json.todos));
-        } else if (json.status === 203) {
-          alert('Your token is invalid.')
-        } else {
-          alert('You are unauthorized user.');
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+    .then(response => response.json())
+    .then(json => {
+      if (json.success) {
+        dispatch(loadTodo(json.todos));
+      } else if (json.status === 203) {
+        alert('Your token is invalid.')
+      } else {
+        alert('You are unauthorized user.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
   }
 };
 
@@ -71,9 +71,9 @@ export const saveTodo = (textToAdd) => {
         alert('You are unauthorized user.');
       }
     })
-      .catch((err) => {
-        console.error(err);
-      })
+    .catch((err) => {
+      console.error(err);
+    })
   }
 }
 
