@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { url } from '../../url';
+import history from '../../history'
 
 export const ADD_TODO = 'ADD_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
@@ -40,13 +41,17 @@ export const getTodo = () => {
       if (json.success) {
         dispatch(loadTodo(json.todos));
       } else if (json.status === 203) {
-        alert('Your token is invalid.')
+        alert('Your token is invalid.');
+        history.push('/');
+        window.location.reload();
       } else {
         alert('You are unauthorized user.');
+        history.push('/');
+        window.location.reload();
       }
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
     })
   }
 };
@@ -66,13 +71,17 @@ export const saveTodo = (textToAdd) => {
       if (response.data.success) {
         dispatch(addTodo(response.data.todo));
       } else if (response.data.status === 203) {
-        alert('Your token is invalid.')
+        alert('Your token is invalid.');
+        history.push('/');
+        window.location.reload();
       } else {
         alert('You are unauthorized user.');
+        history.push('/');
+        window.location.reload();
       }
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
     })
   }
 }
@@ -89,12 +98,16 @@ export const removeTodo = (id) => {
       if (response.data.success) {
         dispatch(deleteTodo(id));
       } else if (response.data.status === 203) {
-        alert('Your token is invalid.')
+        alert('Your token is invalid.');
+        history.push('/');
+        window.location.reload();
       } else {
         alert('You are unauthorized user.');
+        history.push('/');
+        window.location.reload();
       }
     }).catch((err) => {
-      console.error(err);
+      console.log(err);
     })
   }
 }
@@ -114,12 +127,16 @@ export const editTodo = (id, textToSet) => {
       if (response.data.success) {
         dispatch(updateTodo(id, textToSet));
       } else if (response.data.status === 203) {
-        alert('Your token is invalid.')
+        alert('Your token is invalid.');
+        history.push('/');
+        window.location.reload();
       } else {
         alert('You are unauthorized user.');
+        history.push('/');
+        window.location.reload();
       }
     }).catch((err) => {
-      console.error(err);
+      console.log(err);
     })
   }
 }

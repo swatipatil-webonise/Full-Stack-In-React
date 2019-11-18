@@ -66,6 +66,13 @@ app.get("/users", function (req, res) {
     res.json(users);
 });
 
+var myLogger = function (req, res, next) {
+    console.log('LOGGED')
+    next()
+  }
+  
+app.use(myLogger);
+
 app.post("/login", function (req, res) {
     let isSuccess = false;
     for (var i = 0; i < users.length; i++) {

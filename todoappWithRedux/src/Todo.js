@@ -17,7 +17,9 @@ class Todo extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getTodo();
+    if (localStorage.getItem('isValid')) {
+      this.props.getTodo();
+    }
   }
 
   onUserType = event => {
@@ -69,12 +71,12 @@ class Todo extends React.Component {
 
   render() {
     return (
-      <div>
+      <div>{localStorage.getItem('isValid') ?
         <center><br></br>
           <h1>Welcome to our todo app...</h1><br></br>
           <AddTodo buttonValue={this.state.buttonValue} description={this.state.description} onUserType={this.onUserType} onAddTodo={this.onAddTodo}/><br></br><br></br>
           <ListTodo todos={this.props.todoData} onDelete={this.onDelete} onEdit={this.onEdit}  onLogout={this.onLogout}/>
-        </center>
+        </center> :  <h1>404 Page not found</h1>}
       </div>
     );
   }

@@ -44,6 +44,7 @@ export class Login extends React.Component {
                 else {
                     response.json().then(json => {
                         localStorage.setItem('webtoken', json.token);
+                        localStorage.setItem('isValid' , true);
                         this.props.history.push('/view');
                     })
                 }
