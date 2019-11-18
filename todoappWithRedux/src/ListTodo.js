@@ -4,6 +4,7 @@ export const ListTodo = ({
   todos,
   onEdit,
   onDelete,
+  onLogout,
 }) => {
   return (
     <div>
@@ -26,7 +27,8 @@ export const ListTodo = ({
             </tr>
           )}
         </tbody>
-      </table>
+      </table><br/>
+      <button onClick={onLogout.bind(null)}>Log out</button>
     </div>
   );
 };

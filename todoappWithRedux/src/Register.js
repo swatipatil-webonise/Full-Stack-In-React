@@ -1,5 +1,4 @@
 import React from 'react';
-import history from './history';
 import { url } from './url';
 
 const Email_Format = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
@@ -39,8 +38,7 @@ export default class Register extends React.Component {
             .then((response) => {
                 if (response.status === 200) {
                     alert('You registered successfully.');
-                    history.push('/');
-                    window.location.reload();
+                    this.props.history.push('/view');
                 } else if (response.status === 205) {
                     alert('Entered username is not available for you try another.');
                     this.refs.usernameRef.value = '';

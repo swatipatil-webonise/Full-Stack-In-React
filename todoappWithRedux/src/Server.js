@@ -3,7 +3,6 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
 var express = require("express");
-var _ = require("lodash");
 var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

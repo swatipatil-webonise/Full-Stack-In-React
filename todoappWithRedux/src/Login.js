@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import Register from './Register';
 import { url } from './url';
 
 export class Login extends React.Component {
@@ -60,7 +59,7 @@ export class Login extends React.Component {
                     Username : <input type="text" ref="usernameRef" /><br /><br />
                     Password : <input type="password" ref="passwordRef" /><br /><br />
                     <input type="button" value="Login" onClick={this.validateFields.bind()}></input><br /><br /><br />
-                    <Link to="/register" Component={Register}>register here!</Link>
+                    <Link to="/register">register here!</Link>
                 </form>
             </center >
         );
