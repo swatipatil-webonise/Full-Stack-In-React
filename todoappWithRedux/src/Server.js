@@ -66,12 +66,27 @@ app.get("/users", function (req, res) {
     res.json(users);
 });
 
-var myLogger = function (req, res, next) {
-    console.log('LOGGED')
-    next()
-  }
-  
-app.use(myLogger);
+var myMiddleware = function (req, res, next) {
+    let bearerToken = req.header('Authorization');
+    if (bearerToken === undefined) {
+        return res.json({
+            success: false,
+            status: 403
+        })
+    }
+    jwt.verify(bearerToken.slice(7, bearerToken.length), publicKEY, (err) => {
+        if (err) {
+            return res.json({
+                success: false,
+                status: 203
+            });
+        } else {
+            next();
+        }
+    })
+}
+
+app.use('/todos', myMiddleware);
 
 app.post("/login", function (req, res) {
     let isSuccess = false;
@@ -124,123 +139,39 @@ app.post('/register', function (req, res) {
 });
 
 app.get("/todos", function (req, res) {
-    let success = false, bearerToken = req.header('Authorization');
-    if (bearerToken === undefined) {
-        return res.json({
-            success: false,
-            status: 403
-        })
-    }
-    jwt.verify(bearerToken.slice(7, bearerToken.length), publicKEY, (err) => {
-        if (err) {
-            success = false;
-        } else {
-            success = true;
-        }
-    })
-    if (success) {
-        return res.json({
-            success: true,
-            todos: todos
-        });
-    } else {
-        return res.json({
-            success: false,
-            status: 203
-        });
-    }
+    return res.json({
+        success: true,
+        todos: todos
+    });
 });
 
 
 app.post("/todos", function (req, res) {
-    let success = false, todo = {}, bearerToken = req.header('Authorization');
-    if (bearerToken === undefined) {
-        return res.json({
-            success: false,
-            status: 403
-        })
-    }
-    jwt.verify(bearerToken.slice(7, bearerToken.length), publicKEY, (err) => {
-        if (err) {
-            success = false;
-        } else {
-            todo = {
-                id: ++id,
-                desc: req.body.desc
-            };
-            todos.push(todo);
-            success = true;
-        }
-    })
-    if (success) {
-        return res.json({
-            success: true,
-            todo: todo
-        });
-    } else {
-        return res.json({
-            success: false,
-            status: 203
-        });
-    }
+    let todo = {
+        id: ++id,
+        desc: req.body.desc
+    };
+    todos.push(todo);
+    return res.json({
+        success: true,
+        todo: todo
+    });
 });
 
 app.delete("/todos/:id", function (req, res) {
-    let success = false, bearerToken = req.header('Authorization');
-    if (bearerToken === undefined) {
-        return res.json({
-            success: false,
-            status: 403
-        })
-    }
-    jwt.verify(bearerToken.slice(7, bearerToken.length), publicKEY, (err) => {
-        if (err) {
-            success = false;
-        } else {
-            todos = todos.filter((todo) => todo.id !== parseInt(req.params.id))
-            success = true;
-        }
-    })
-    if (success) {
-        return res.json({
-            success: true,
-        });
-    } else {
-        return res.json({
-            success: false,
-            status: 203
-        });
-    }
+    todos = todos.filter((todo) => todo.id !== parseInt(req.params.id))
+    return res.json({
+        success: true,
+    });
 });
 
 app.put("/todos/:id", function (req, res) {
-    let success = false, bearerToken = req.header('Authorization');
-    if (bearerToken === undefined) {
-        return res.json({
-            success: false,
-            status: 403
-        })
-    }
-    jwt.verify(bearerToken.slice(7, bearerToken.length), publicKEY, (err) => {
-        if (err) {
-            success = false;
-        } else {
-            for (var i = 0; i < todos.length; i++) {
-                if (todos[i].id === parseInt(req.params.id)) {
-                    todos[i].desc = req.body.desc;
-                }
-            }
-            success = true;
+    for (var i = 0; i < todos.length; i++) {
+        if (todos[i].id === parseInt(req.params.id)) {
+            todos[i].desc = req.body.desc;
         }
-    })
-    if (success) {
-        return res.json({
-            success: true,
-        });
-    } else {
-        return res.json({
-            success: false,
-            status: 203
-        });
     }
+    return res.json({
+        success: true,
+    });
 });

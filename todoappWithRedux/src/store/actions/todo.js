@@ -35,24 +35,22 @@ export const getTodo = () => {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('webtoken')}`,
       }
-    })
-    .then(response => response.json())
-    .then(json => {
-      if (json.success) {
-        dispatch(loadTodo(json.todos));
-      } else if (json.status === 203) {
-        alert('Your token is invalid.');
-        history.push('/');
-        window.location.reload();
-      } else {
-        alert('You are unauthorized user.');
-        history.push('/');
-        window.location.reload();
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    }).then(response => response.json())
+      .then(json => {
+        if (json.success) {
+          dispatch(loadTodo(json.todos));
+        } else if (json.status === 203) {
+          alert('Your token is invalid.');
+          history.push('/');
+          window.location.reload();
+        } else {
+          alert('You are unauthorized user.');
+          history.push('/');
+          window.location.reload();
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
   }
 };
 
@@ -79,8 +77,7 @@ export const saveTodo = (textToAdd) => {
         history.push('/');
         window.location.reload();
       }
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.log(err);
     })
   }
