@@ -46,7 +46,12 @@ export class Login extends React.Component {
                     this.props.history.push('/view');
                 })
             }
-        }).catch((err) => console.log(err))
+        }).catch((err) => {
+            if (err.message === 'Failed to fetch') {
+                alert('Server not available plz try after some time....');
+                this.refs.usernameRef.value = this.refs.passwordRef.value = '';
+            }
+        })
     }
 
     render() {

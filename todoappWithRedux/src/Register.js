@@ -34,21 +34,23 @@ export default class Register extends React.Component {
                 password: this.refs.passwordRef.value,
                 email: this.refs.emailRef.value
             })
+        }).then((response) => {
+            if (response.status === 200) {
+                alert('You registered successfully.');
+                this.props.history.push('/view');
+            } else if (response.status === 205) {
+                alert('Entered username is not available for you try another.');
+                this.refs.usernameRef.value = '';
+            } else if (response.status === 206) {
+                alert('Entered email is not available for you try another.');
+                this.refs.emailRef.value = '';
+            }
+        }).catch((err) => {
+            if (err.message === 'Failed to fetch') {
+                alert('Server not available plz try after some time....');
+                this.refs.emailRef.value = this.refs.usernameRef.value = this.refs.passwordRef.value = this.refs.firstnameRef.value = '';
+            }
         })
-            .then((response) => {
-                if (response.status === 200) {
-                    alert('You registered successfully.');
-                    this.props.history.push('/view');
-                } else if (response.status === 205) {
-                    alert('Entered username is not available for you try another.');
-                    this.refs.usernameRef.value = '';
-                } else if (response.status === 206) {
-                    alert('Entered email is not available for you try another.');
-                    this.refs.emailRef.value = '';
-                }
-            }).catch((err) => {
-                console.log(err);
-            })
     }
 
     render() {
